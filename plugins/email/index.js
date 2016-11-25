@@ -78,10 +78,12 @@ exports.initWebApp = function(options) {
         subject: lines.shift(),
         text:    lines.join('\n')
       };
-      mailer.sendMail(mailOptions, function(err2, response) {
-        if (err2) return console.error('Email plugin error: %s', err2);
-        console.log('Notified event by email: Check ' + check.name + ' ' + checkEvent.message);
-      });
+      if(mailOptions.subject.indexOf("production") > -1){
+        mailer.sendMail(mailOptions, function(err2, response) {
+          if (err2) return console.error('Email plugin error: %s', err2);
+          console.log('Notified event by email: Check ' + check.name + ' ' + checkEvent.message);
+        });
+      }
     });
   });
   console.log('Enabled Email notifications');
